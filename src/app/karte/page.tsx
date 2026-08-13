@@ -378,6 +378,19 @@ export default function KartePage(): ReactElement | null {
         >
           Datenschutzerklärung
         </a>
+
+        <button
+          type="button"
+          onClick={async () => {
+            const supabase = createClient();
+            await supabase.auth.signOut();
+            router.push('/');
+          }}
+          className="mx-auto mt-4 block py-3 text-center text-xs underline touch-manipulation"
+          style={{ color: istLoyaltyTier ? brandConfig.farben.loyaltyTier.akzent : '#999999', opacity: istLoyaltyTier ? 0.8 : 1 }}
+        >
+          Abmelden
+        </button>
       </div>
 
       {aktivesFeld != null && aktivesPraemienConfig && (

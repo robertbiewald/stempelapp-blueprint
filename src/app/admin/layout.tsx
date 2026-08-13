@@ -48,7 +48,7 @@ export default function AdminLayout({ children }: { children: ReactNode }): Reac
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <nav className="sticky top-0 z-10 flex gap-1 overflow-x-auto border-b border-gray-200 bg-white px-4 py-2">
+      <nav className="sticky top-0 z-10 flex items-center gap-1 overflow-x-auto border-b border-gray-200 bg-white px-4 py-2">
         {NAV_ITEMS.map((item) => (
           <Link
             key={item.href}
@@ -62,6 +62,17 @@ export default function AdminLayout({ children }: { children: ReactNode }): Reac
             {item.label}
           </Link>
         ))}
+        <button
+          type="button"
+          onClick={async () => {
+            const supabase = createClient();
+            await supabase.auth.signOut();
+            router.push('/');
+          }}
+          className="ml-auto whitespace-nowrap rounded-lg px-3 py-2 text-sm text-gray-500 touch-manipulation"
+        >
+          Abmelden
+        </button>
       </nav>
       <main className="px-4 py-6">{children}</main>
     </div>
