@@ -362,7 +362,7 @@ export default function KartePage(): ReactElement | null {
                 nr={nr}
                 erreicht={kunde.stempel_aktuell >= nr}
                 isPraemie={!!praemieConfig?.einloesbar && kunde.stempel_aktuell >= nr}
-                eingeloest={!!einloesung?.eingeloest_am}
+                eingeloest={!!praemieConfig && !!einloesung?.eingeloest_am}
                 onClick={() => praemieConfig?.einloesbar && setAktivesFeld(nr)}
               />
             );
