@@ -159,14 +159,16 @@ create policy "Authentifizierte lesen Praemien-Konfiguration" on praemien_config
 create policy "Admins verwalten Praemien-Konfiguration" on praemien_config
   for all using (exists (select 1 from admins where admins.id = auth.uid()));
 
--- Platzhalter-Beispieldaten — beim Kunden-Setup durch echte Werte aus
+-- Platzhalter-Beispieldaten — bewusst deckungsgleich mit den
+-- Default-Werten in brand.config.ts (gesamtFelder: 20, Meilensteine
+-- 5/10/15/20), damit ein frisches Setup ohne weitere Anpassung
+-- konsistent ist. Beim Kunden-Setup durch echte Werte aus
 -- brand.config.ts ersetzen (siehe README "Neuen Kunden einrichten").
 insert into praemien_config (schwelle, praemie, level, einloesbar, icon) values
-  (10, 'Beispiel-Prämie 1', 1, true,  'geschenk'),
-  (20, 'Beispiel-Prämie 2', 1, true,  'geschenk'),
-  (35, 'Beispiel-Prämie 3', 1, true,  'geschenk'),
-  (50, 'Beispiel-Prämie 4', 1, true,  'geschenk'),
-  (70, 'Aufstieg in Loyalty-Tier', 1, false, 'krone');
+  (5, 'Beispiel-Prämie 1', 1, true,  'geschenk'),
+  (10, 'Beispiel-Prämie 2', 1, true,  'geschenk'),
+  (15, 'Beispiel-Prämie 3', 1, true,  'geschenk'),
+  (20, 'Aufstieg in Loyalty-Tier', 1, false, 'krone');
 
 
 -- ------------------------------------------------------------
