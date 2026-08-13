@@ -12,12 +12,15 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/*
+ * Bewusst KEIN automatisches prefers-color-scheme:dark hier — die
+ * Kernkomponenten (Login, Standard-Stempelkarte, Admin) sind fest auf
+ * weißen Hintergrund ausgelegt. Nur die Loyalty-Tier-Karte hat ein
+ * eigenes, fest programmiertes dunkles Design (siehe karte/page.tsx).
+ * Eine automatische Umschaltung hier würde nur die Textfarbe auf
+ * Hellgrau kippen, ohne die Hintergründe anzupassen, und dadurch
+ * z.B. Überschriften auf der Login-Seite fast unsichtbar machen.
+ */
 
 body {
   background: var(--background);
