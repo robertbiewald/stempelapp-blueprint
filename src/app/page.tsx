@@ -30,7 +30,7 @@ function LoginForm(): ReactElement {
     setHinweis(null);
 
     if (!EMAIL_REGEX.test(email)) {
-      setFehler('Bitte gib eine gültige E-Mail-Adresse ein.');
+      setFehler('Bitte geben Sie eine gültige E-Mail-Adresse ein.');
       return;
     }
 
@@ -101,97 +101,122 @@ function LoginForm(): ReactElement {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-8 bg-white px-4 py-12">
-      <Image src={brandConfig.logoPfad} alt={brandConfig.firmenname} width={120} height={120} priority />
+    <div className="flex min-h-screen flex-col items-center justify-center gap-6 px-4 py-12">
+      <div className="w-full max-w-sm rounded-3xl border border-[rgba(0,43,241,0.08)] bg-white p-8 shadow-[0_20px_60px_-15px_rgba(0,43,241,0.15)]">
+        <div className="flex flex-col items-center gap-6">
+          <Image src={brandConfig.logoPfad} alt={brandConfig.firmenname} width={72} height={72} priority />
 
-      <div className="w-full max-w-sm text-center">
-        <h1 className="text-2xl font-bold uppercase tracking-wide">{brandConfig.appTitel}</h1>
-        <p className="mt-2 text-sm text-gray-600">{brandConfig.loginUntertitel}</p>
+          <div
+            className="flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium"
+            style={{ borderColor: 'rgba(0,43,241,0.15)', color: brandConfig.farben.praemienRand }}
+          >
+            <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: brandConfig.farben.akzent }} />
+            Digitale Kundenkarte
+          </div>
+
+          <div className="w-full text-center">
+            <h1 className="text-2xl font-extrabold" style={{ color: brandConfig.farben.primaer }}>
+              {brandConfig.appTitel}
+            </h1>
+            <p className="mt-2 text-sm text-gray-500">{brandConfig.loginUntertitel}</p>
+          </div>
+        </div>
+
+        <form onSubmit={handleSubmit} className="mt-8 flex w-full flex-col gap-3">
+          {isRegister && (
+            <>
+              <input
+                type="text"
+                placeholder="Vorname"
+                value={vorname}
+                onChange={(e) => setVorname(e.target.value)}
+                className="text-base w-full rounded-xl border px-4 py-3"
+                style={{ borderColor: 'rgba(0,43,241,0.15)', backgroundColor: '#F4F6FF' }}
+                required
+              />
+              <input
+                type="text"
+                placeholder="Nachname"
+                value={nachname}
+                onChange={(e) => setNachname(e.target.value)}
+                className="text-base w-full rounded-xl border px-4 py-3"
+                style={{ borderColor: 'rgba(0,43,241,0.15)', backgroundColor: '#F4F6FF' }}
+                required
+              />
+            </>
+          )}
+
+          <input
+            type="email"
+            placeholder="E-Mail-Adresse"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="text-base w-full rounded-xl border px-4 py-3"
+            style={{ borderColor: 'rgba(0,43,241,0.15)', backgroundColor: '#F4F6FF' }}
+            required
+          />
+
+          {!isForgotPassword && (
+            <input
+              type="password"
+              placeholder="Passwort"
+              value={passwort}
+              onChange={(e) => setPasswort(e.target.value)}
+              className="text-base w-full rounded-xl border px-4 py-3"
+              style={{ borderColor: 'rgba(0,43,241,0.15)', backgroundColor: '#F4F6FF' }}
+              required
+              minLength={6}
+            />
+          )}
+
+          {fehler && <p className="text-sm text-red-600">{fehler}</p>}
+          {hinweis && <p className="text-sm text-green-700">{hinweis}</p>}
+
+          <button
+            type="submit"
+            disabled={ladevorgang}
+            className="w-full rounded-full px-4 py-3 font-semibold text-white touch-manipulation disabled:opacity-50"
+            style={{ backgroundColor: brandConfig.farben.akzent }}
+          >
+            {isForgotPassword ? 'Link anfordern' : isRegister ? 'Registrieren' : 'Einloggen'}
+          </button>
+
+          {!isForgotPassword && (
+            <button
+              type="button"
+              onClick={() => {
+                setIsRegister((v) => !v);
+                setFehler(null);
+                setHinweis(null);
+              }}
+              className="w-full py-3 text-sm text-gray-600 touch-manipulation"
+            >
+              {isRegister ? 'Bereits registriert? Einloggen' : 'Noch kein Konto? Jetzt registrieren'}
+            </button>
+          )}
+
+          {!isRegister && (
+            <button
+              type="button"
+              onClick={() => {
+                setIsForgotPassword((v) => !v);
+                setFehler(null);
+                setHinweis(null);
+              }}
+              className="w-full py-3 text-sm text-gray-400 touch-manipulation"
+            >
+              {isForgotPassword ? 'Zurück zum Login' : 'Passwort vergessen?'}
+            </button>
+          )}
+        </form>
       </div>
 
-      <form onSubmit={handleSubmit} className="flex w-full max-w-sm flex-col gap-4">
-        {isRegister && (
-          <>
-            <input
-              type="text"
-              placeholder="Vorname"
-              value={vorname}
-              onChange={(e) => setVorname(e.target.value)}
-              className="text-base w-full rounded-lg border border-gray-300 px-4 py-3"
-              required
-            />
-            <input
-              type="text"
-              placeholder="Nachname"
-              value={nachname}
-              onChange={(e) => setNachname(e.target.value)}
-              className="text-base w-full rounded-lg border border-gray-300 px-4 py-3"
-              required
-            />
-          </>
-        )}
-
-        <input
-          type="email"
-          placeholder="E-Mail-Adresse"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="text-base w-full rounded-lg border border-gray-300 px-4 py-3"
-          required
-        />
-
-        {!isForgotPassword && (
-          <input
-            type="password"
-            placeholder="Passwort"
-            value={passwort}
-            onChange={(e) => setPasswort(e.target.value)}
-            className="text-base w-full rounded-lg border border-gray-300 px-4 py-3"
-            required
-            minLength={6}
-          />
-        )}
-
-        {fehler && <p className="text-sm text-red-600">{fehler}</p>}
-        {hinweis && <p className="text-sm text-green-700">{hinweis}</p>}
-
-        <button
-          type="submit"
-          disabled={ladevorgang}
-          className="w-full rounded-lg px-4 py-3 font-semibold text-white touch-manipulation disabled:opacity-50"
-          style={{ backgroundColor: brandConfig.farben.akzent }}
-        >
-          {isForgotPassword ? 'Link anfordern' : isRegister ? 'Registrieren' : 'Einloggen'}
-        </button>
-
-        {!isForgotPassword && (
-          <button
-            type="button"
-            onClick={() => {
-              setIsRegister((v) => !v);
-              setFehler(null);
-              setHinweis(null);
-            }}
-            className="w-full py-3 text-sm text-gray-600 touch-manipulation"
-          >
-            {isRegister ? 'Bereits registriert? Einloggen' : 'Noch kein Konto? Jetzt registrieren'}
-          </button>
-        )}
-
-        {!isRegister && (
-          <button
-            type="button"
-            onClick={() => {
-              setIsForgotPassword((v) => !v);
-              setFehler(null);
-              setHinweis(null);
-            }}
-            className="w-full py-3 text-sm text-gray-400 touch-manipulation"
-          >
-            {isForgotPassword ? 'Zurück zum Login' : 'Passwort vergessen?'}
-          </button>
-        )}
-      </form>
+      <p className="text-xs text-gray-400">
+        Ein Produkt von{' '}
+        <a href="https://grothe-biewald.de" target="_blank" rel="noopener noreferrer" className="underline">
+          G&amp;B Systems
+        </a>
+      </p>
     </div>
   );
 }

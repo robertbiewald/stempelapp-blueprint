@@ -128,10 +128,10 @@ create policy "Authentifizierte lesen Einstellungen" on einstellungen
 -- abgeglichen und ggf. per /admin/einstellungen angepasst werden.
 insert into einstellungen (schluessel, wert, beschreibung) values
   ('zeitsperre_lvl1_sekunden', '0', 'Zeitsperre zwischen Scans für Standard-Kunden (0 = deaktiviert)'),
-  ('zeitsperre_lvl2_sekunden', '300', 'Zeitsperre zwischen Scans für Loyalty-Tier-Kunden'),
+  ('zeitsperre_lvl2_sekunden', '0', 'Zeitsperre zwischen Scans für Loyalty-Tier-Kunden (0 = deaktiviert, aktuell Vertriebs-Demo, siehe brand.config.ts)'),
   ('loyalty_bonus_cent', '50', 'Bonus/Rabatt pro Stempel für Loyalty-Tier-Kunden, in Cent'),
   ('gueltigkeit_jahre', '2', 'Gültigkeitsdauer der Stempelkarte in Jahren, ab dem ersten Stempel'),
-  ('loyalty_verlaengerung_ziel', '40', 'Mindest-Stempelzahl innerhalb der Gültigkeitsdauer, um den Loyalty-Tier zu verlängern (sonst Rückstufung)');
+  ('loyalty_verlaengerung_ziel', '5', 'Mindest-Stempelzahl innerhalb der Gültigkeitsdauer, um den Loyalty-Tier zu verlängern (sonst Rückstufung)');
 
 
 -- ------------------------------------------------------------
@@ -159,16 +159,17 @@ create policy "Authentifizierte lesen Praemien-Konfiguration" on praemien_config
 create policy "Admins verwalten Praemien-Konfiguration" on praemien_config
   for all using (exists (select 1 from admins where admins.id = auth.uid()));
 
--- Platzhalter-Beispieldaten — bewusst deckungsgleich mit den
--- Default-Werten in brand.config.ts (gesamtFelder: 20, Meilensteine
--- 5/10/15/20), damit ein frisches Setup ohne weitere Anpassung
--- konsistent ist. Beim Kunden-Setup durch echte Werte aus
--- brand.config.ts ersetzen (siehe README "Neuen Kunden einrichten").
+-- Bewusst deckungsgleich mit den aktuellen Werten in brand.config.ts
+-- (gesamtFelder: 10, Meilensteine 3/6/9/10 — klein gehalten für die
+-- Live-Vorführung beim Erstkontakt, siehe brand.config.ts-Kommentar),
+-- damit ein frisches Setup ohne weitere Anpassung konsistent ist.
+-- Beim Kunden-Setup durch echte Werte aus brand.config.ts ersetzen
+-- (siehe README "Neuen Kunden einrichten").
 insert into praemien_config (schwelle, praemie, level, einloesbar, icon) values
-  (5, 'Beispiel-Prämie 1', 1, true,  'geschenk'),
-  (10, 'Beispiel-Prämie 2', 1, true,  'geschenk'),
-  (15, 'Beispiel-Prämie 3', 1, true,  'geschenk'),
-  (20, 'Aufstieg in Loyalty-Tier', 1, false, 'krone');
+  (3, 'Gratis Leistung', 1, true,  'geschenk'),
+  (6, 'Überraschung', 1, true,  'geschenk'),
+  (9, 'Rabatt sichern', 1, true,  'rabatt'),
+  (10, 'Aufstieg in den VIP-Club', 1, false, 'krone');
 
 
 -- ------------------------------------------------------------

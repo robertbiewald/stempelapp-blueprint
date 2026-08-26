@@ -101,7 +101,7 @@ function StempelLogik(): ReactElement {
           const sekundenSeitLetztem = (Date.now() - new Date(letzterLog.zeit).getTime()) / 1000;
           if (sekundenSeitLetztem < zeitsperreSekunden) {
             const restSekunden = Math.ceil(zeitsperreSekunden - sekundenSeitLetztem);
-            setMeldung(`Bitte warte noch ${restSekunden} Sekunden bis zum nächsten Stempel.`);
+            setMeldung(`Bitte warten Sie noch ${restSekunden} Sekunden bis zum nächsten Stempel.`);
             setStatus('zeitsperre');
             return;
           }
@@ -172,19 +172,23 @@ function StempelLogik(): ReactElement {
   if (status === 'zeitsperre') return <Meldung titel="Zeitsperre aktiv" text={meldung ?? ''} />;
   if (status === 'erfolg_praemie_eingeloest') return <Meldung titel="Prämie eingelöst!" text={meldung ?? ''} erfolg />;
   if (status === 'erfolg_loyalty_aufstieg')
-    return <Meldung titel={`Willkommen im ${brandConfig.loyaltyTier.name}!`} text="Du hast das höchste Level erreicht." erfolg />;
+    return <Meldung titel={`Willkommen im ${brandConfig.loyaltyTier.name}!`} text="Sie haben das höchste Level erreicht." erfolg />;
   if (status === 'erfolg_stempel') return <Meldung titel="Stempel verbucht!" text={meldung ?? ''} erfolg />;
-  return <Meldung titel="Fehler" text="Bitte versuche es erneut." />;
+  return <Meldung titel="Fehler" text="Bitte versuchen Sie es erneut." />;
 }
 
 function Meldung({ titel, text, erfolg }: { titel: string; text: ReactElement | string; erfolg?: boolean }): ReactElement {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-4 px-4 text-center">
-      <h1 className="text-2xl font-bold" style={{ color: erfolg ? brandConfig.farben.akzent : '#1a1a1a' }}>
+      <h1 className="text-2xl font-extrabold" style={{ color: erfolg ? brandConfig.farben.akzent : brandConfig.farben.primaer }}>
         {titel}
       </h1>
-      <p className="text-gray-600">{text}</p>
-      <Link href="/karte" className="mt-4 rounded-lg px-4 py-3 font-semibold text-white touch-manipulation" style={{ backgroundColor: brandConfig.farben.akzent }}>
+      <p className="text-gray-500">{text}</p>
+      <Link
+        href="/karte"
+        className="mt-4 rounded-full px-6 py-3 font-semibold text-white touch-manipulation"
+        style={{ backgroundColor: brandConfig.farben.akzent }}
+      >
         Zur Stempelkarte
       </Link>
     </div>

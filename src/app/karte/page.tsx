@@ -125,7 +125,7 @@ function PraemienPopup({
 
         {!einloesung && (
           <>
-            <p className="mt-3 text-sm text-gray-600">Diese Prämie hast du erreicht. Jetzt anfordern?</p>
+            <p className="mt-3 text-sm text-gray-600">Diese Prämie haben Sie erreicht. Jetzt anfordern?</p>
             <div className="mt-6 flex gap-3">
               <button
                 type="button"
@@ -213,8 +213,8 @@ function Feld({
       className="relative flex aspect-square items-center justify-center rounded-lg text-sm font-semibold touch-manipulation"
       style={{
         backgroundColor: erreicht ? brandConfig.farben.akzent : '#ffffff',
-        color: erreicht ? '#ffffff' : '#1a1a1a',
-        border: isPraemie ? `2px solid ${brandConfig.farben.praemienRand}` : '1px solid #e5e5e5',
+        color: erreicht ? '#ffffff' : brandConfig.farben.primaer,
+        border: isPraemie ? `2px solid ${brandConfig.farben.praemienRand}` : '1px solid rgba(0,43,241,0.12)',
       }}
     >
       {nr}
@@ -324,21 +324,33 @@ export default function KartePage(): ReactElement | null {
           : undefined,
         backgroundSize: 'cover',
       }
-    : { backgroundColor: '#ffffff' };
+    : { backgroundColor: '#F4F6FF' };
 
   return (
     <div className="min-h-screen px-4 py-8" style={hintergrundStil}>
-      <div className="mx-auto max-w-md">
+      <div
+        className="mx-auto max-w-md rounded-3xl p-6"
+        style={
+          istLoyaltyTier
+            ? undefined
+            : { backgroundColor: '#ffffff', border: '1px solid rgba(0,43,241,0.08)', boxShadow: '0 20px 60px -15px rgba(0,43,241,0.15)' }
+        }
+      >
+        {istLoyaltyTier && brandConfig.logoWeissPfad && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={brandConfig.logoWeissPfad} alt={brandConfig.firmenname} width={56} height={56} className="mx-auto mb-4" />
+        )}
+
         <h1
-          className="text-center text-xl font-bold uppercase"
-          style={{ color: istLoyaltyTier ? brandConfig.farben.loyaltyTier.akzent : '#1a1a1a' }}
+          className="text-center text-xl font-extrabold"
+          style={{ color: istLoyaltyTier ? '#ffffff' : brandConfig.farben.primaer }}
         >
           {istLoyaltyTier ? brandConfig.loyaltyTier.name : brandConfig.appTitel}
         </h1>
 
         <p
           className="mt-1 text-center text-sm"
-          style={{ color: istLoyaltyTier ? brandConfig.farben.loyaltyTier.akzent : '#666666' }}
+          style={{ color: istLoyaltyTier ? '#ffffff' : '#666666', opacity: istLoyaltyTier ? 0.85 : 1 }}
         >
           {kunde.vorname} {kunde.name} — Stempel {kunde.stempel_aktuell} von {gesamtFelder}
         </p>
@@ -374,7 +386,7 @@ export default function KartePage(): ReactElement | null {
           target="_blank"
           rel="noopener noreferrer"
           className="mt-8 block text-center text-xs underline"
-          style={{ color: istLoyaltyTier ? brandConfig.farben.loyaltyTier.akzent : '#999999', opacity: istLoyaltyTier ? 0.8 : 1 }}
+          style={{ color: istLoyaltyTier ? '#ffffff' : '#999999', opacity: istLoyaltyTier ? 0.7 : 1 }}
         >
           Datenschutzerklärung
         </a>
@@ -387,7 +399,7 @@ export default function KartePage(): ReactElement | null {
             router.push('/');
           }}
           className="mx-auto mt-4 block py-3 text-center text-xs underline touch-manipulation"
-          style={{ color: istLoyaltyTier ? brandConfig.farben.loyaltyTier.akzent : '#999999', opacity: istLoyaltyTier ? 0.8 : 1 }}
+          style={{ color: istLoyaltyTier ? '#ffffff' : '#999999', opacity: istLoyaltyTier ? 0.7 : 1 }}
         >
           Abmelden
         </button>
