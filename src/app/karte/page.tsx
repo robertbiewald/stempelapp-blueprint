@@ -403,6 +403,25 @@ export default function KartePage(): ReactElement | null {
         >
           Abmelden
         </button>
+
+        <a
+          href="https://grothe-biewald.de"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-6 flex items-center justify-center gap-2 text-xs"
+          style={{ color: istLoyaltyTier ? '#ffffff' : '#999999', opacity: istLoyaltyTier ? 0.7 : 1 }}
+        >
+          Ein Produkt von
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={istLoyaltyTier ? '/gb-systems-logo-weiss.svg' : '/gb-systems-logo.svg'}
+            alt="G&B Systems"
+            width={16}
+            height={16}
+            className="rounded"
+          />
+          <span className="underline">G&amp;B Systems</span>
+        </a>
       </div>
 
       {aktivesFeld != null && aktivesPraemienConfig && (

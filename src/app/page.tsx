@@ -211,12 +211,16 @@ function LoginForm(): ReactElement {
         </form>
       </div>
 
-      <p className="text-xs text-gray-400">
-        Ein Produkt von{' '}
-        <a href="https://grothe-biewald.de" target="_blank" rel="noopener noreferrer" className="underline">
-          G&amp;B Systems
-        </a>
-      </p>
+      <a
+        href="https://grothe-biewald.de"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-2 text-xs text-gray-400 hover:text-gray-500"
+      >
+        Ein Produkt von
+        <Image src="/gb-systems-logo.svg" alt="G&B Systems" width={16} height={16} className="rounded" />
+        <span className="underline">G&amp;B Systems</span>
+      </a>
     </div>
   );
 }

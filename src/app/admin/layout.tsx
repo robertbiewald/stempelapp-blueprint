@@ -49,14 +49,16 @@ export default function AdminLayout({ children }: { children: ReactNode }): Reac
   return (
     <div className="min-h-screen bg-gray-50">
       <nav className="sticky top-0 z-10 flex items-center gap-1 overflow-x-auto border-b border-gray-200 bg-white px-4 py-2">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/gb-systems-logo.svg" alt="G&B Systems" width={24} height={24} className="mr-2 rounded" />
         {NAV_ITEMS.map((item) => (
           <Link
             key={item.href}
             href={item.href}
             className="whitespace-nowrap rounded-lg px-3 py-2 text-sm touch-manipulation"
             style={{
-              backgroundColor: pathname === item.href ? '#1a1a1a' : 'transparent',
-              color: pathname === item.href ? '#ffffff' : '#1a1a1a',
+              backgroundColor: pathname === item.href ? '#002BF1' : 'transparent',
+              color: pathname === item.href ? '#ffffff' : '#080A1E',
             }}
           >
             {item.label}
