@@ -1,7 +1,7 @@
 'use client';
 
 import { Suspense, useEffect, useState, type ReactElement } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import { brandConfig } from '@/config/brand.config';
@@ -16,7 +16,8 @@ type Status =
   | 'erfolg_praemie_eingeloest'
   | 'fehler';
 
-function StempelLogik(): ReactElement {
+function StempelLogik(): ReactElement | null {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const tagCode = searchParams.get('tag');
   const [status, setStatus] = useState<Status>('laden');
@@ -32,7 +33,11 @@ function StempelLogik(): ReactElement {
       const supabase = createClient();
       const { data: userData } = await supabase.auth.getUser();
       if (!userData.user) {
-        setStatus('nicht_eingeloggt');
+        // Kein aktives Login auf diesem Gerät — sofort ins Login-/Registrierungs-
+        // Fenster weiterleiten (next-Parameter führt nach Login/Registrierung
+        // automatisch zurück zu diesem Stempel-Vorgang), statt eine
+        // Zwischenseite mit Klick-Umweg zu zeigen.
+        router.replace(`/?next=${encodeURIComponent(`/stempeln?tag=${tagCode}`)}`);
         return;
       }
 
@@ -160,13 +165,9 @@ function StempelLogik(): ReactElement {
     }
 
     ablauf();
-  }, [tagCode]);
+  }, [tagCode, router]);
 
-  if (status === 'nicht_eingeloggt') {
-    const next = `/stempeln?tag=${tagCode ?? ''}`;
-    return <Meldung titel="Bitte einloggen" text={<Link href={`/?next=${encodeURIComponent(next)}`} className="underline">Zum Login</Link>} />;
-  }
-
+  if (status === 'nicht_eingeloggt') return null;
   if (status === 'laden') return <Meldung titel="Einen Moment…" text="Stempel wird verbucht." />;
   if (status === 'ungueltiger_tag') return <Meldung titel="Ungültiger Tag" text="Dieser NFC-Chip ist nicht aktiv." />;
   if (status === 'zeitsperre') return <Meldung titel="Zeitsperre aktiv" text={meldung ?? ''} />;
